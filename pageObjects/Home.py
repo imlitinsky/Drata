@@ -1,6 +1,9 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from pageObjects.Demo import Demo
 from pageObjects.About import About
+from pageObjects.ProductsSOC2 import ProductsSOC2
+from pageObjects.SignIn import SignIn
 
 
 class Home:
@@ -20,13 +23,32 @@ class Home:
         self.driver.find_element(*Home.start_nav).click()
         demo = Demo(self.driver)
         return demo
-        #return self.driver.find_element(*Home.start_nav)
 
     company_nav = (By.XPATH, "//li[@class='nav-item companyHeaderLink']")
 
     def company(self):
         self.driver.find_element(*Home.company_nav).click()
-        #return self.driver.find_element(*Home.company_nav)
+
+    products_nav = (By.XPATH, "//li[@class='nav-item']/a[contains(text(), 'Products')]")
+
+    def products(self):
+        a = ActionChains(self.driver)
+        products = self.driver.find_element(*Home.products_nav)
+        a.move_to_element(products).perform()
+
+    soc2_nav = (By.XPATH, "//li[@class='nav-item']//a[@href='/soc-2']")
+
+    def soc2(self):
+        self.driver.find_element(*Home.soc2_nav).click()
+        soc2 = ProductsSOC2(self.driver)
+        return soc2
+
+    sign_in_nav = (By.XPATH, "//div[@data-id='82c740d']//span[contains(text(),'Sign in')]")
+
+    def sign_in(self):
+        self.driver.find_element(*Home.sign_in_nav).click()
+        sign_in = SignIn(self.driver)
+        return sign_in
 
     about_nav = (By.XPATH, "//a[@href='/about']")
 
@@ -34,7 +56,6 @@ class Home:
         self.driver.find_element(*Home.about_nav).click()
         about = About(self.driver)
         return about
-        #return self.driver.find_element(*Home.about_nav)
 
     careers_nav = (By.XPATH, "//a[@href='/careers']")
 
